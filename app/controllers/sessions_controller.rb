@@ -3,13 +3,14 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(email: params[:email])
+    login = params[:login].to_s.strip.downcase
+    user = User.where("lower(email) = ? OR lower(username) = ?", login, login).first
 
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
       redirect_to family_path
     else
-      flash.now[:alert] = "Invalid email or password"
+      flash.now[:alert] = "Invalid username/email or password"
       render :new
     end
   end

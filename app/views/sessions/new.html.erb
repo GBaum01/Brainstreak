@@ -1,8 +1,8 @@
 <h1>Log In</h1>
 
-<%= form_with url: sessions_path do |f| %>
-  <%= f.label :email %>
-  <%= f.email_field :email %>
+<%= form_with url: session_path do |f| %>
+  <%= f.label :login, "Email or Username" %>
+  <%= f.text_field :login %>
 
   <%= f.label :password %>
   <%= f.password_field :password %>

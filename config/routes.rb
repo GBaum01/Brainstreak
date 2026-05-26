@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   root "pages#home"
 
   resources :users, only: [:new, :create]
-  resources :sessions, only: [:new, :create, :destroy]
+  resource :session, only: [:new, :create, :destroy]
+
+  resources :users do
+    resources :students
+  end
 
   get "family", to: "family#index"
 
