@@ -1,2 +1,24 @@
 <h1>Your Family</h1>
-<p>Welcome! This is where your children will appear.</p>
+<p>Welcome! This is where your students will appear.</p>
+<h2>Students</h2>
+
+<% @user.students.each do |student| %>
+  <p>
+    <strong><%= student.first_name %></strong><br>
+    School Year: <%= student.school_year %><br>
+
+  <%= link_to "Remove",
+            user_student_path(@user, student),
+            method: :delete,
+            data: { confirm: "Are you sure?", turbo_method: :delete } %>
+  </p>
+<% end %>
+
+<%= link_to "Add Student", new_user_student_path(@user) %>
+
+<hr>
+
+<%= link_to "Log out",
+            session_path,
+            method: :delete,
+            data: { turbo_method: :delete } %>

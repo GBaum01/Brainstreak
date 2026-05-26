@@ -1,0 +1,11 @@
+<h1>Family page</h1>
+
+<%= link_to "Add Student", new_user_student_path(@user) %>
+
+<h2>Students</h2>
+<% @user.students.each do |student| %>
+  <p>
+    <strong><%= student.first_name %></strong><br>
+    School Year: <%= student.school_year %><br>
+  </p>
+<% end %>
