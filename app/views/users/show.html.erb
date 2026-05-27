@@ -6,6 +6,6 @@
 <% @user.students.each do |student| %>
   <p>
     <strong><%= student.name %></strong><br>
-    Year Group: <%= student.year_group_id %><br>
+    Year Group: <%= student.year_group&.name %><br>
   </p>
 <% end %>

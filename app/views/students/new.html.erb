@@ -2,13 +2,13 @@
 
 <%= form_with model: [@user, @student] do |f| %>
   <p>
-    <%= f.label :name %><br>
+    <%= f.label :name, "Name" %><br>
     <%= f.text_field :name %>
   </p>
 
   <p>
     <%= f.label :year_group_id, "Year Group" %><br>
-    <%= f.collection_select :year_group_id, year_group_id.all, :id, :name %>
+    <%= f.collection_select :year_group_id, YearGroup.all, :id, :name, prompt: "Select a year group" %>
   </p>
 
 
