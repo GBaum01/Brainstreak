@@ -1,30 +1,88 @@
-<h1>Parent Sign Up</h1>
+<div class="login-page-body">
+  <!-- Minimalist Navbar -->
+  <nav class="login-navbar">
+    <a href="/" class="nav-logo">Brainstreak</a>
+    <button type="button" class="nav-lang-btn" aria-label="Change Language">
+      <i class="fa-solid fa-globe"></i>
+    </button>
+  </nav>
 
-<%= form_with model: @user do |f| %>
-  <div>
-    <%= f.label :email %>
-    <%= f.email_field :email %>
-  </div>
+  <!-- Sign Up Card Container -->
+  <main class="login-main-content">
+    <div class="login-card">
+      <h1 class="login-header-title">Hello Parent!</h1>
+      <p class="login-header-subtitle">Create an account to start your journey!</p>
 
-  <div>
-    <%= f.label :username %>
-    <%= f.text_field :username %>
-  </div>
+      <%= form_with model: @user, local: true do |f| %>
+        <!-- Email Input -->
+        <div class="login-form-group">
+          <%= f.label :email, "Email Address", class: "login-label" %>
+          <div class="login-input-wrapper">
+            <%= f.email_field :email, class: "login-input", placeholder: "parent@example.com", required: true, autocomplete: "email" %>
+          </div>
+        </div>
 
-  <div>
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-  </div>
+        <!-- Username Input -->
+        <div class="login-form-group">
+          <%= f.label :username, "Username", class: "login-label" %>
+          <div class="login-input-wrapper">
+            <%= f.text_field :username, class: "login-input", placeholder: "Username", required: true, autocomplete: "username" %>
+          </div>
+        </div>
 
-  <div>
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
-  </div>
+        <!-- Password Input -->
+        <div class="login-form-group">
+          <%= f.label :password, "Password", class: "login-label" %>
+          <div class="login-input-wrapper">
+            <%= f.password_field :password, class: "login-input", id: "signup-password-field", placeholder: "Password (min 6 characters)", required: true, autocomplete: "new-password" %>
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('signup-password-field', 'signup-password-icon')" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye-slash" id="signup-password-icon"></i>
+            </button>
+          </div>
+        </div>
 
-  <%= f.submit "Create Account" %>
-<% end %>
-<p>
-  Already a user?
-  <%= link_to "Log In", new_session_path %>
-</p>
+        <!-- Password Confirmation Input -->
+        <div class="login-form-group">
+          <%= f.label :password_confirmation, "Password Confirmation", class: "login-label" %>
+          <div class="login-input-wrapper">
+            <%= f.password_field :password_confirmation, class: "login-input", id: "signup-password-confirm-field", placeholder: "Confirm Password", required: true, autocomplete: "new-password" %>
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('signup-password-confirm-field', 'signup-password-confirm-icon')" aria-label="Toggle password confirmation visibility">
+              <i class="fa-solid fa-eye-slash" id="signup-password-confirm-icon"></i>
+            </button>
+          </div>
+        </div>
 
+        <!-- Submit Button -->
+        <%= f.button type: :submit, class: "login-submit-btn", style: "margin-top: 1.5rem;" do %>
+          Create Account
+        <% end %>
+
+        <!-- Log In Link -->
+        <div class="login-form-footer" style="margin-top: 2rem;">
+          Already have an Account? 
+          <%= link_to "LOG IN", new_session_path, class: "signup-link" %>
+        </div>
+      <% end %>
+    </div>
+  </main>
+
+
+</div>
+
+<!-- Password Visibility Toggle Script -->
+<script>
+  function togglePasswordVisibility(fieldId, iconId) {
+    const passwordField = document.getElementById(fieldId);
+    const toggleIcon = document.getElementById(iconId);
+    
+    if (passwordField.type === 'password') {
+      passwordField.type = 'text';
+      toggleIcon.classList.remove('fa-eye-slash');
+      toggleIcon.classList.add('fa-eye');
+    } else {
+      passwordField.type = 'password';
+      toggleIcon.classList.remove('fa-eye');
+      toggleIcon.classList.add('fa-eye-slash');
+    }
+  }
+</script>
