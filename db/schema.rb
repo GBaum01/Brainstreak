@@ -44,12 +44,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_050000) do
 
   create_table "students", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "first_name"
-    t.string "state"
+    t.string "name"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.bigint "year_group_id", null: false
-    t.integer "yeargroup"
     t.index ["user_id"], name: "index_students_on_user_id"
     t.index ["year_group_id"], name: "index_students_on_year_group_id"
   end
