@@ -40,7 +40,7 @@ puts "✅ Year Group created"
 maths_module = Module.create!(
   name: "Year 2 Mathematics",
   position: 1,
-  id_year_group: year2.id
+  year_group_id: year2.id
 )
 
 puts "✅ Module created"
