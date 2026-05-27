@@ -1,0 +1,6 @@
+<%# Assuming to receive @student %>
+<% student = Student.new %>
+<% student.name = 'David' %>
+<h1> <%= student.name %> Streak</h1>
+
+<%= @student || student %>
