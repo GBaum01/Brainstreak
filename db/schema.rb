@@ -14,25 +14,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_26_073000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "practices", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "score"
-    t.boolean "status"
-    t.bigint "student_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["student_id"], name: "index_practices_on_student_id"
-  end
-
-  create_table "questions", force: :cascade do |t|
-    t.float "correct_answer"
-    t.datetime "created_at", null: false
-    t.bigint "practice_id", null: false
-    t.text "question"
-    t.boolean "status"
-    t.datetime "updated_at", null: false
-    t.index ["practice_id"], name: "index_questions_on_practice_id"
-  end
-
   create_table "students", force: :cascade do |t|
     t.integer "age"
     t.datetime "created_at", null: false
@@ -52,7 +33,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_26_073000) do
     t.string "username"
   end
 
-  add_foreign_key "practices", "students"
-  add_foreign_key "questions", "practices"
   add_foreign_key "students", "users"
 end
