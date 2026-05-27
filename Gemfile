@@ -74,3 +74,5 @@ end
 gem "bcrypt", "~> 3.1.7"
 
 gem "ruby_llm", "~> 1.15"
+
+gem "tailwindcss-rails", "~> 4.4"
