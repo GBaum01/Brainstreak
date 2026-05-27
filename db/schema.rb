@@ -29,17 +29,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_051304) do
     t.index ["student_id"], name: "index_practices_on_student_id"
   end
 
-  create_table "prompts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "difficulty_level"
-    t.text "questions_json"
-    t.bigint "student_id"
-    t.string "subject"
-    t.datetime "updated_at", null: false
-    t.integer "year_level"
-    t.index ["student_id"], name: "index_prompts_on_student_id"
-  end
-
   create_table "questions", force: :cascade do |t|
     t.text "correct_answer"
     t.datetime "created_at", null: false
@@ -54,11 +43,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_051304) do
   create_table "students", force: :cascade do |t|
     t.integer "age"
     t.datetime "created_at", null: false
-    t.string "first_name"
-    t.string "state"
+    t.string "name"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.integer "yeargroup"
     t.index ["user_id"], name: "index_students_on_user_id"
   end
 
@@ -78,8 +65,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_051304) do
     t.string "username"
   end
 
+  create_table "year_groups", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "practices", "students"
-  add_foreign_key "prompts", "students"
   add_foreign_key "questions", "practices"
   add_foreign_key "students", "users"
   add_foreign_key "topics", "curriculums"

@@ -19,6 +19,7 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
@@ -26,6 +27,8 @@
   <body>
     <p><%= notice %></p>
     <p><%= alert %></p>
-    <%= yield %>
+    <main class="container mx-auto mt-28 px-5">
+      <%= yield %>
+    </main>
   </body>
 </html>
