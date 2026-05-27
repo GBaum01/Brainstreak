@@ -8,25 +8,25 @@ class StudentsController < ApplicationController
   def create
     @student = @user.students.new(student_params)
     if @student.save
-      redirect_to family_path, notice: "Student added"
+      redirect_to family_path
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
   def destroy
     @student = @user.students.find(params[:id])
     @student.destroy
-    redirect_to family_path, notice: "Student removed"
+    redirect_to family_path
   end
 
   private
 
   def set_user
-    @user = current_user
+    @user = User.find(params[:user_id])
   end
 
   def student_params
-    params.require(:student).permit(:first_name, :yeargroup)
+    params.require(:student).permit(:name, :year_group_id)
   end
 end

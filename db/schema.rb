@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_26_073000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_27_060834) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "students", force: :cascade do |t|
     t.integer "age"
     t.datetime "created_at", null: false
-    t.string "first_name"
-    t.string "state"
+    t.string "name"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.integer "yeargroup"
+    t.bigint "year_group_id", null: false
     t.index ["user_id"], name: "index_students_on_user_id"
+    t.index ["year_group_id"], name: "index_students_on_year_group_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -33,5 +33,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_26_073000) do
     t.string "username"
   end
 
+  create_table "year_groups", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "students", "users"
+  add_foreign_key "students", "year_groups"
 end

@@ -3,3 +3,4 @@ class FamilyController < ApplicationController
     @user = current_user
   end
 end
+
