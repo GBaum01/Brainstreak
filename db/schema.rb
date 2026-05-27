@@ -10,9 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_27_033542) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_27_051304) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "curriculums", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
 
   create_table "practices", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -27,16 +33,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_033542) do
     t.datetime "created_at", null: false
     t.integer "difficulty_level"
     t.text "questions_json"
+    t.bigint "student_id"
     t.string "subject"
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
     t.integer "year_level"
-    t.index ["user_id"], name: "index_prompts_on_user_id"
+    t.index ["student_id"], name: "index_prompts_on_student_id"
   end
 
   create_table "questions", force: :cascade do |t|
-    t.float "correct_answer"
+    t.text "correct_answer"
     t.datetime "created_at", null: false
+    t.text "explanation"
     t.bigint "practice_id", null: false
     t.text "question"
     t.boolean "status"
@@ -55,6 +62,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_033542) do
     t.index ["user_id"], name: "index_students_on_user_id"
   end
 
+  create_table "topics", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "curriculum_id", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.index ["curriculum_id"], name: "index_topics_on_curriculum_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
@@ -64,7 +79,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_033542) do
   end
 
   add_foreign_key "practices", "students"
-  add_foreign_key "prompts", "users"
+  add_foreign_key "prompts", "students"
   add_foreign_key "questions", "practices"
   add_foreign_key "students", "users"
+  add_foreign_key "topics", "curriculums"
 end

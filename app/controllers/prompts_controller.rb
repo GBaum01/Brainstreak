@@ -1,23 +1,22 @@
 class PromptsController < ApplicationController
-  before_action :authenticate_user!
-
   # GET /prompts/new
   def new
     @prompt = Prompt.new
+    @curriculums = Curriculum.all
+    @topics = Topic.all
   end
 
-  # POST /prompts
+  # POST /students/:student_id/prompts
   def create
-    # 1. Create a prompt with strong params
+    @student = Student.find(params[:student_id])
     @prompt = Prompt.new(prompt_params)
-    @prompt.user = current_user
+    @prompt.student = @student
+    @prompt.year_level = @student.yeargroup
 
-    # 2. Generate AI questions based on criteria
     @prompt.questions_json = generate_ai_questions(@prompt)
 
-    # 3. Save it
     if @prompt.save
-      redirect_to prompt_path(@prompt), status: :see_other, notice: "Questions generated successfully!"
+      redirect_to prompt_path(@prompt), status: :see_other
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,7 +25,6 @@ class PromptsController < ApplicationController
   # GET /prompts/:id
   def show
     @prompt = Prompt.find(params[:id])
-    @questions = JSON.parse(@prompt.questions_json) if @prompt.questions_json
   end
 
   private
@@ -34,16 +32,16 @@ class PromptsController < ApplicationController
   def generate_ai_questions(prompt)
     chat = RubyLLM.chat
 
+    curriculum_name = Curriculum.find(prompt.curriculum_id).name
+    topic_name = Topic.find(prompt.topic_id).name
+
     ai_prompt = <<~PROMPT
-      Generate 10 multiple choice mathematics questions for a Year #{prompt.year_level} student at difficulty level #{prompt.difficulty_level} (1=easiest, 5=hardest).
+      Generate 10 multiple choice mathematics questions for Year #{prompt.year_level}.
+      Curriculum: #{curriculum_name}
+      Topic: #{topic_name}
+      Difficulty: #{prompt.difficulty_level}
 
-      Requirements:
-      - Format as JSON with array of questions
-      - Each question has: question_text, options (A, B, C, D), correct_answer, explanation
-      - Questions aligned to Victorian curriculum
-      - Age-appropriate content
-
-      Return ONLY valid JSON, no markdown or extra text.
+      Return as JSON with: question_text, options (A,B,C,D), correct_answer, explanation
     PROMPT
 
     response = chat.ask(ai_prompt)
@@ -51,6 +49,6 @@ class PromptsController < ApplicationController
   end
 
   def prompt_params
-    params.require(:prompt).permit(:year_level, :difficulty_level, :subject)
+    params.require(:prompt).permit(:difficulty_level, :subject)
   end
 end
