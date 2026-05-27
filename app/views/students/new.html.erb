@@ -2,14 +2,15 @@
 
 <%= form_with model: [@user, @student] do |f| %>
   <p>
-    <%= f.label :first_name %><br>
-    <%= f.text_field :first_name %>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
   </p>
 
   <p>
-    <%= f.label :yeargroup %><br>
-    <%= f.text_field :yeargroup %>
+    <%= f.label :year_group_id, "Year Group" %><br>
+    <%= f.collection_select :year_group_id, year_group_id.all, :id, :name %>
   </p>
+
 
   <%= f.submit "Save Student" %>
 <% end %>
