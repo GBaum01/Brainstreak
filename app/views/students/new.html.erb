@@ -7,8 +7,8 @@
   </p>
 
   <p>
-    <%= f.label :yeargroup %><br>
-    <%= f.text_field :yeargroup %>
+    <%= f.label :year_group_id, "Year Group" %><br>
+    <%= f.collection_select :year_group_id, YearGroup.all, :id, :name, prompt: "Select a year group" %>
   </p>
 
   <%= f.submit "Save Student" %>

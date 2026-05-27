@@ -1,6 +1,7 @@
 class Student < ApplicationRecord
   belongs_to :user
+  belongs_to :year_group
 
   validates :first_name, presence: true
-  validates :yeargroup, numericality: { only_integer: true, greater_than: 0 }
+  validates :year_group, presence: true
 end
