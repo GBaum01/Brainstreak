@@ -1,11 +1,74 @@
-<h1>Log In</h1>
+<div class="login-page-body">
+  <!-- Minimalist Navbar -->
+  <nav class="login-navbar">
+    <a href="/" class="nav-logo">Brainstreak</a>
+    <button type="button" class="nav-lang-btn" aria-label="Change Language">
+      <i class="fa-solid fa-globe"></i>
+    </button>
+  </nav>
 
-<%= form_with url: session_path do |f| %>
-  <%= f.label :login, "Email or Username" %>
-  <%= f.text_field :login %>
+  <!-- Login Card Container -->
+  <main class="login-main-content">
+    <div class="login-card">
+      <h1 class="login-header-title">Hello Again!</h1>
+      <p class="login-header-subtitle">Welcome Back You've Been Missed!</p>
 
-  <%= f.label :password %>
-  <%= f.password_field :password %>
+      <%= form_with url: session_path, local: true do |f| %>
+        <!-- Email/Username Input -->
+        <div class="login-form-group">
+          <%= f.label :login, "Email Address", class: "login-label" %>
+          <div class="login-input-wrapper">
+            <%= f.text_field :login, class: "login-input", placeholder: "Email or Username", required: true, autocomplete: "username" %>
+          </div>
+        </div>
 
-  <%= f.submit "Log In" %>
-<% end %>
+        <!-- Password Input -->
+        <div class="login-form-group">
+          <%= f.label :password, "Password", class: "login-label" %>
+          <div class="login-input-wrapper">
+            <%= f.password_field :password, class: "login-input", id: "login-password-field", placeholder: "Password", required: true, autocomplete: "current-password" %>
+            <button type="button" class="password-toggle-btn" id="password-toggle-trigger" onclick="togglePasswordVisibility()" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye-slash" id="password-toggle-icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recovery Password Link -->
+        <div class="recovery-link-container">
+          <a href="#" class="recovery-link">Recovery Password</a>
+        </div>
+
+        <!-- Submit Button -->
+        <%= f.button type: :submit, class: "login-submit-btn" do %>
+          Sign In
+        <% end %>
+
+        <!-- Sign Up Link -->
+        <div class="login-form-footer">
+          Don't have an Account? 
+          <%= link_to "SIGN UP", new_user_path, class: "signup-link" %>
+        </div>
+      <% end %>
+    </div>
+  </main>
+
+
+</div>
+
+<!-- Password Visibility Toggle Script -->
+<script>
+  function togglePasswordVisibility() {
+    const passwordField = document.getElementById('login-password-field');
+    const toggleIcon = document.getElementById('password-toggle-icon');
+    
+    if (passwordField.type === 'password') {
+      passwordField.type = 'text';
+      toggleIcon.classList.remove('fa-eye-slash');
+      toggleIcon.classList.add('fa-eye');
+    } else {
+      passwordField.type = 'password';
+      toggleIcon.classList.remove('fa-eye');
+      toggleIcon.classList.add('fa-eye-slash');
+    }
+  }
+</script>
