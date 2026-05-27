@@ -1,6 +1,5 @@
 <%# Assuming to receive @student %>
-<% student = Student.new %>
-<% student.name = 'David' %>
-<h1> <%= student.name %> Streak</h1>
 
+<h1> <%= student.name %> Streak</h1>
+<%= link_to "Generate practice", "#" %>
 <%= @student || student %>
