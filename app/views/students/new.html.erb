@@ -1,0 +1,19 @@
+<h1>Add a Student</h1>
+
+<%= form_with model: [@user, @student] do |f| %>
+  <p>
+    <%= f.label :first_name %><br>
+    <%= f.text_field :first_name %>
+  </p>
+
+  <p>
+    <%= f.label :yeargroup %><br>
+    <%= f.text_field :yeargroup %>
+  </p>
+
+  <%= f.submit "Save Student" %>
+<% end %>
+
+<hr>
+
+<%= link_to "Back", family_path %>
