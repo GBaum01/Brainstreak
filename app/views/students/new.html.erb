@@ -1,6 +1,17 @@
 <h1>Add a Student</h1>
 
-<%= form_with model: [@user, @student] do |f| %>
+<%= form_with model: [@user, @student], local: true do |f| %>
+  <% if @student.errors.any? %>
+    <div class="alert alert-danger">
+      <h2><%= pluralize(@student.errors.count, "error") %> prevented this student from being saved:</h2>
+      <ul>
+        <% @student.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <p>
     <%= f.label :name, "Name" %><br>
     <%= f.text_field :name %>
@@ -8,7 +19,10 @@
 
   <p>
     <%= f.label :year_group_id, "Year Group" %><br>
-    <%= f.collection_select :year_group_id, YearGroup.all, :id, :name, prompt: "Select a year group" %>
+    <% if @year_groups.empty? %>
+      <span class="text-danger">No year groups are available. Please run <code>bin/rails db:seed</code> or add year groups before creating students.</span><br>
+    <% end %>
+    <%= f.collection_select :year_group_id, @year_groups, :id, :name, prompt: "Select a year group" %>
   </p>
 
   <%= f.submit "Save Student" %>
