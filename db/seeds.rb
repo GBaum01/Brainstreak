@@ -18,7 +18,7 @@ Practice.destroy_all
 Level.destroy_all
 Module.destroy_all
 Child.destroy_all
-year_group_id.destroy_all
+YearGroup.destroy_all
 
 puts "✅ Existing data cleared"
 
@@ -26,7 +26,7 @@ puts "✅ Existing data cleared"
 # YEAR GROUP
 # ---------------------------------------------------
 
-year2 = year_group_id.create!(
+year2 = YearGroup.create!(
   name: "Year 2",
   position: 2
 )

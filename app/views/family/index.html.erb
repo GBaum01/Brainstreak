@@ -4,8 +4,8 @@
 
 <% @user.students.each do |student| %>
   <p>
-    <strong><%= student.name %></strong><br>
-    Year Group: <%= student.year_group_id %><br>
+    <strong><%= student.first_name %></strong><br>
+    Year Group: <%= student.yeargroup %><br>
 
   <%= link_to "Remove",
             user_student_path(@user, student),
