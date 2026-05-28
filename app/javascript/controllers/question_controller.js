@@ -66,7 +66,7 @@ export default class extends Controller {
     .then(data => {
       console.log("Progress check:", { answered_count: data.answered_count, total: totalQuestions })
       if (data.answered_count === totalQuestions) {
-        console.log("All questions answered! Showing submit button.")
+        console.log("All questions answered. Showing submit button.")
         this.submitPracticeBtnTarget.style.display = "inline-flex"
       }
     })
