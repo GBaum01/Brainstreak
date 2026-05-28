@@ -1,4 +1,12 @@
 class PracticesController < ApplicationController
+  # GET /practices/:id (check progress)
+  def show
+    @practice = Practice.find(params[:id])
+    answered_count = @practice.questions.where.not(status: nil).count
+
+    render json: { answered_count: answered_count }
+  end
+
   # POST /students/:student_id/practices
   def create
     # 1. Create the practice
@@ -17,6 +25,14 @@ class PracticesController < ApplicationController
     else
       redirect_to student_path(@student), alert: "Something went wrong..."
     end
+  end
+
+  # POST /practices/:id/submit
+  def submit
+    @practice = Practice.find(params[:id])
+    score = @practice.questions.where(status: true).count
+    @practice.update(score: score)
+    redirect_to student_path(@practice.student), notice: "Practice completed with score #{score}/10"
   end
 
   private

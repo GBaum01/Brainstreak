@@ -10,7 +10,16 @@ Rails.application.routes.draw do
   end
 
   resource :session, only: [:new, :create, :destroy]
-  resources :questions, only: [ :show ]
+  resources :questions, only: [ :show ] do
+    member do
+      post :answer
+    end
+  end
+  resources :practices, only: [:show] do
+    member do
+      post :submit
+    end
+  end
 
   get "family", to: "family#index"
   get "up" => "rails/health#show", as: :rails_health_check
