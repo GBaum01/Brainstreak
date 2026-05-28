@@ -1,15 +1,169 @@
-<h1><%= @student.name %></h1>
+<h1 class="text-2xl font-bold text-gray-900"><%= @student.name %> — <%= @student.year_group.name %></h1>
 
-<%= render 'layouts/section_header',
-  title: "#{@student.name}'s Streak",
-  button_label: "Generate practice",
-  button_path: student_practices_path(@student),
-  button_method: :post %>
-<ol>
-<% @student.practices.order(:created_at).each_with_index do |practice, index| %>
-  <li>
-    Practice <%= index + 1 %> - <%= practice.score %>/10
-  </li>
-<% end %>
-</ol>
-<%= @student || student %>
+<%# ---- TOPIC TABS ---- %>
+<div class="mt-6" data-controller="tabs">
+
+  <%# Mobile dropdown %>
+  <div class="grid grid-cols-1 sm:hidden">
+    <select
+      aria-label="Select a topic"
+      class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+      data-action="change->tabs#selectFromDropdown">
+      <option value="0">Number and Place Value</option>
+      <option value="1">Addition and Subtraction</option>
+      <option value="2">Multiplication and Division</option>
+      <option value="3">Fractions</option>
+    </select>
+    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end fill-gray-500">
+      <path d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
+    </svg>
+  </div>
+
+  <%# Desktop pill tabs %>
+  <div class="hidden sm:block">
+    <nav aria-label="Topics" class="flex space-x-4 rounded-lg border border-gray-200 bg-gray-50 p-2">
+      <a href="#" data-action="click->tabs#select" data-tabs-index-param="0"
+         class="rounded-md bg-indigo-100 px-3 py-2 text-sm font-medium text-indigo-700" aria-current="page">
+        Number and Place Value
+      </a>
+      <a href="#" data-action="click->tabs#select" data-tabs-index-param="1"
+         class="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+        Addition and Subtraction
+      </a>
+      <a href="#" data-action="click->tabs#select" data-tabs-index-param="2"
+         class="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+        Multiplication and Division
+      </a>
+      <a href="#" data-action="click->tabs#select" data-tabs-index-param="3"
+         class="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+        Fractions
+      </a>
+    </nav>
+  </div>
+
+  <%# Tab panels %>
+  <div class="mt-4">
+
+    <%# Panel 0 — Number and Place Value %>
+    <div data-tabs-target="panel">
+      <ul class="divide-y divide-gray-200 rounded-md border border-gray-200">
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Read and write numbers up to 10,000</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Compare and order four-digit numbers</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Partition numbers using place value</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Count in 10s, 100s and 1000s</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Round numbers to the nearest 10 and 100</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+      </ul>
+    </div>
+
+    <%# Panel 1 — Addition and Subtraction %>
+    <div data-tabs-target="panel" class="hidden">
+      <ul class="divide-y divide-gray-200 rounded-md border border-gray-200">
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Add two-digit and three-digit numbers</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Subtract two-digit and three-digit numbers</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Solve addition word problems</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Solve subtraction word problems</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Use inverse operations to check answers</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+      </ul>
+    </div>
+
+    <%# Panel 2 — Multiplication and Division %>
+    <div data-tabs-target="panel" class="hidden">
+      <ul class="divide-y divide-gray-200 rounded-md border border-gray-200">
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Recall 2, 5 and 10 times tables</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Recall 3 and 4 times tables</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Multiply one-digit numbers by two-digit numbers</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Divide numbers using equal groups</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Solve multiplication and division word problems</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+      </ul>
+    </div>
+
+    <%# Panel 3 — Fractions %>
+    <div data-tabs-target="panel" class="hidden">
+      <ul class="divide-y divide-gray-200 rounded-md border border-gray-200">
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Recognise and find fractions of shapes</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Compare and order fractions</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Add and subtract fractions with the same denominator</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Find fractions of amounts</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+        <li class="flex items-center justify-between px-4 py-3">
+          <span class="text-sm text-gray-700">Solve fraction word problems</span>
+          <button class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500">Start Practice</button>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<%# ---- PRACTICE HISTORY ---- %>
+<div class="mt-8">
+  <%= render 'layouts/section_header',
+    title: "#{@student.name}'s Streak",
+    button_label: nil,
+    button_path: nil,
+    button_method: nil %>
+
+  <ol class="mt-2 space-y-1">
+    <% @student.practices.order(:created_at).each_with_index do |practice, index| %>
+      <li class="text-sm text-gray-700">
+        Practice <%= index + 1 %> — <%= practice.score %>/10
+      </li>
+    <% end %>
+  </ol>
+</div>
