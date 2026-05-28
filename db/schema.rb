@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_27_070320) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_28_073945) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -20,12 +20,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_070320) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "levels", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.bigint "topic_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["topic_id"], name: "index_levels_on_topic_id"
+  end
+
   create_table "practices", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "level_id"
     t.integer "score"
     t.boolean "status"
     t.bigint "student_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["level_id"], name: "index_practices_on_level_id"
     t.index ["student_id"], name: "index_practices_on_student_id"
   end
 
@@ -72,6 +82,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_070320) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "levels", "topics"
+  add_foreign_key "practices", "levels"
   add_foreign_key "practices", "students"
   add_foreign_key "questions", "practices"
   add_foreign_key "students", "users"
