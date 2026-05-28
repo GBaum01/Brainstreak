@@ -1,6 +1,11 @@
 class StudentsController < ApplicationController
-  before_action :set_user
+  before_action :set_user, only: %i[new create destroy]
   before_action :set_year_groups, only: %i[new create]
+
+  # GET /students/:id
+  def show
+    @student = Student.find(params[:id])
+  end
 
   def new
     @student = @user.students.new

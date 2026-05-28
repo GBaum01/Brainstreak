@@ -10,17 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_27_050000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_27_070320) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "levels", force: :cascade do |t|
+  create_table "curriculums", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "difficulty"
     t.string "name"
-    t.bigint "topic_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["topic_id"], name: "index_levels_on_topic_id"
   end
 
   create_table "practices", force: :cascade do |t|
@@ -33,8 +30,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_050000) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.float "correct_answer"
+    t.text "correct_answer"
     t.datetime "created_at", null: false
+    t.text "explanation"
     t.bigint "practice_id", null: false
     t.text "question"
     t.boolean "status"
@@ -54,10 +52,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_050000) do
 
   create_table "topics", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "curriculum_id", null: false
     t.string "name"
     t.datetime "updated_at", null: false
-    t.bigint "year_group_id", null: false
-    t.index ["year_group_id"], name: "index_topics_on_year_group_id"
+    t.index ["curriculum_id"], name: "index_topics_on_curriculum_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -74,9 +72,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_27_050000) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "levels", "topics"
+  add_foreign_key "practices", "students"
   add_foreign_key "questions", "practices"
   add_foreign_key "students", "users"
   add_foreign_key "students", "year_groups"
-  add_foreign_key "topics", "year_groups"
+  add_foreign_key "topics", "curriculums"
 end
