@@ -1,3 +1,13 @@
 <h1><%= @student.name %></h1>
 
-<%= link_to "Start practice", student_practices_path(@student), class: 'inline-flex items-center justify-center px-6 py-3 text-base font-semibold rounded-2xl text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 shadow-md hover:shadow-lg active:shadow-sm transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0', data: { turbo_method: :post } %>
+<%= render 'layouts/section_header',
+  title: "#{@student.name}'s Streak",
+  button_label: "Generate practice",
+  button_path: student_practices_path(@student) %>
+<ol>
+<% @student.practices.each do |practice|%>
+<li>
+  practice <%= practice.id %> - <%= practice.score%>/10
+</li>
+<%end%>
+<%= @student || student %>
