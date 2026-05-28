@@ -4,5 +4,10 @@
 <p>Answer: <%= @question.correct_answer %></p>
 <p>Explanation: <%= @question.explanation %></p>
 
-<%= link_to "Previous question", "#" %>
-<%= link_to "Next question", "#" %>
+<% if @previous_question %>
+  <%= link_to "Previous question", question_path(@previous_question), class: "btn btn-secondary" %>
+<% end %>
+
+<% if @next_question %>
+  <%= link_to "Next question", question_path(@next_question), class: "btn btn-primary" %>
+<% end %>
