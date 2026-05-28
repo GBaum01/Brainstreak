@@ -1,77 +1,74 @@
 # ---------------------------------------------------
-# CLEAR EXISTING DATA
+# CLEAR EXISTING DATA (only test data, not curriculum)
 # ---------------------------------------------------
 puts "🌱 Clearing existing data..."
 Question.destroy_all
 Practice.destroy_all
 Student.destroy_all
 User.destroy_all
-Level.destroy_all
-Topic.destroy_all
-YearGroup.destroy_all
 
 puts "✅ Existing data cleared"
 
 # ---------------------------------------------------
-# YEAR GROUPS (keeping Year 2 from before, adding Year 5 from sheet)
+# YEAR GROUPS
 # ---------------------------------------------------
-year2 = YearGroup.create!(name: "Year 2")
-year3 = YearGroup.create!(name: "Year 3")
-year4 = YearGroup.create!(name: "Year 4")
-year5 = YearGroup.create!(name: "Year 5")
+year2 = YearGroup.find_or_create_by!(name: "Year 2")
+year3 = YearGroup.find_or_create_by!(name: "Year 3")
+year4 = YearGroup.find_or_create_by!(name: "Year 4")
+year5 = YearGroup.find_or_create_by!(name: "Year 5")
 
-puts "✅ Year groups created"
+puts "✅ Year groups ready"
 
 # ---------------------------------------------------
 # TOPICS
 # ---------------------------------------------------
 
 # Year 3 Topics
-t1  = Topic.create!(name: "Number and Place Value",      year_group: year3)
-t2  = Topic.create!(name: "Addition and Subtraction",    year_group: year3)
-t3  = Topic.create!(name: "Multiplication and Division", year_group: year3)
-t4  = Topic.create!(name: "Fractions",                   year_group: year3)
+t1  = Topic.where(name: "Number and Place Value",      year_group_id: year3.id).first_or_create!
+t2  = Topic.where(name: "Addition and Subtraction",    year_group_id: year3.id).first_or_create!
+t3  = Topic.where(name: "Multiplication and Division", year_group_id: year3.id).first_or_create!
+t4  = Topic.where(name: "Fractions",                   year_group_id: year3.id).first_or_create!
 
 # Year 4 Topics
-t5  = Topic.create!(name: "Number and Place Value",      year_group: year4)
-t6  = Topic.create!(name: "Addition and Subtraction",    year_group: year4)
-t7  = Topic.create!(name: "Multiplication and Division", year_group: year4)
-t8  = Topic.create!(name: "Fractions and Decimals",      year_group: year4)
+t5  = Topic.where(name: "Number and Place Value",      year_group_id: year4.id).first_or_create!
+t6  = Topic.where(name: "Addition and Subtraction",    year_group_id: year4.id).first_or_create!
+t7  = Topic.where(name: "Multiplication and Division", year_group_id: year4.id).first_or_create!
+t8  = Topic.where(name: "Fractions and Decimals",      year_group_id: year4.id).first_or_create!
 
 # Year 5 Topics
-t9  = Topic.create!(name: "Number and Place Value",      year_group: year5)
-t10 = Topic.create!(name: "Operations",                  year_group: year5)
-t11 = Topic.create!(name: "Fractions",                   year_group: year5)
-t12 = Topic.create!(name: "Decimals and Percentages",    year_group: year5)
+t9  = Topic.where(name: "Number and Place Value",      year_group_id: year5.id).first_or_create!
+t10 = Topic.where(name: "Operations",                  year_group_id: year5.id).first_or_create!
+t11 = Topic.where(name: "Fractions",                   year_group_id: year5.id).first_or_create!
+t12 = Topic.where(name: "Decimals and Percentages",    year_group_id: year5.id).first_or_create!
 
-puts "✅ Topics created"
+puts "✅ Topics ready"
 
 # ---------------------------------------------------
-# LEVELS (Learning Objectives)
+# LEVELS
 # ---------------------------------------------------
 
 # Topic 1 — Year 3: Number and Place Value
-Level.create!(name: "Read and write numbers up to 10,000",     topic: t1)
-Level.create!(name: "Compare and order four-digit numbers",    topic: t1)
-Level.create!(name: "Partition numbers using place value",     topic: t1)
-Level.create!(name: "Count in 10s, 100s and 1000s",            topic: t1)
-Level.create!(name: "Round numbers to the nearest 10 and 100", topic: t1)
+Level.where(name: "Read and write numbers up to 10,000",     topic_id: t1.id).first_or_create!
+Level.where(name: "Compare and order four-digit numbers",    topic_id: t1.id).first_or_create!
+Level.where(name: "Partition numbers using place value",     topic_id: t1.id).first_or_create!
+Level.where(name: "Count in 10s, 100s and 1000s",            topic_id: t1.id).first_or_create!
+Level.where(name: "Round numbers to the nearest 10 and 100", topic_id: t1.id).first_or_create!
 
 # Topic 2 — Year 3: Addition and Subtraction
-Level.create!(name: "Add two-digit and three-digit numbers",      topic: t2)
-Level.create!(name: "Subtract two-digit and three-digit numbers", topic: t2)
-Level.create!(name: "Solve addition word problems",               topic: t2)
-Level.create!(name: "Solve subtraction word problems",            topic: t2)
-Level.create!(name: "Use inverse operations to check answers",    topic: t2)
+Level.where(name: "Add two-digit and three-digit numbers",      topic_id: t2.id).first_or_create!
+Level.where(name: "Subtract two-digit and three-digit numbers", topic_id: t2.id).first_or_create!
+Level.where(name: "Solve addition word problems",               topic_id: t2.id).first_or_create!
+Level.where(name: "Solve subtraction word problems",            topic_id: t2.id).first_or_create!
+Level.where(name: "Use inverse operations to check answers",    topic_id: t2.id).first_or_create!
 
 # Topic 3 — Year 3: Multiplication and Division
-Level.create!(name: "Recall 2, 5 and 10 times tables",                 topic: t3)
-Level.create!(name: "Recall 3 and 4 times tables",                     topic: t3)
-Level.create!(name: "Multiply one-digit numbers by two-digit numbers", topic: t3)
-Level.create!(name: "Divide numbers using equal groups",               topic: t3)
-Level.create!(name: "Solve multiplication and division word problems", topic: t3)
+Level.where(name: "Recall 2, 5 and 10 times tables",                 topic_id: t3.id).first_or_create!
+Level.where(name: "Recall 3 and 4 times tables",                     topic_id: t3.id).first_or_create!
+Level.where(name: "Multiply one-digit numbers by two-digit numbers", topic_id: t3.id).first_or_create!
+Level.where(name: "Divide numbers using equal groups",               topic_id: t3.id).first_or_create!
+Level.where(name: "Solve multiplication and division word problems", topic_id: t3.id).first_or_create!
 
-puts "✅ Levels created"
+puts "✅ Levels ready"
 
 # ---------------------------------------------------
 # USER
@@ -87,7 +84,7 @@ puts "✅ User created"
 # ---------------------------------------------------
 # STUDENT
 # ---------------------------------------------------
-student = Student.create!(name: "Alice", user: user, year_group: year2)
+student = Student.create!(name: "Alice", user: user, year_group: year3)
 
 puts "✅ Student created"
 
