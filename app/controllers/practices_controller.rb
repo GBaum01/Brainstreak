@@ -29,7 +29,7 @@ class PracticesController < ApplicationController
     difficulty_level = 3
 
     ai_prompt = <<~PROMPT
-      Generate 10 mathematics questions for Year #{@student.yeargroup}.
+      Generate 10 mathematics questions for Year #{@student.year_group.name}.
 
       Topic: #{topic_name}
       Sub-topic: #{level_name}
