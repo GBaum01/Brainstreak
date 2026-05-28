@@ -3,7 +3,11 @@
   <h1 class="text-base font-semibold text-gray-900"><%= title %></h1>
   <div class="mt-3 sm:mt-0 sm:ml-4">
     <% if button_label && button_path %>
-      <%= link_to button_label, button_path, class: "btn h--cta inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500" %>
+      <% if local_assigns[:button_method] %>
+        <%= button_to button_label, button_path, method: button_method, class: "btn h--cta inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500" %>
+      <% else %>
+        <%= link_to button_label, button_path, class: "btn h--cta inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500" %>
+      <% end %>
     <% end %>
   </div>
 </div>

@@ -3,7 +3,8 @@
 <%= render 'layouts/section_header',
   title: "#{@student.name}'s Streak",
   button_label: "Generate practice",
-  button_path: student_practices_path(@student) %>
+  button_path: student_practices_path(@student),
+  button_method: :post %>
 <ol>
 <% @student.practices.each do |practice|%>
 <li>
