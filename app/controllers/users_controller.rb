@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  layout "application_no_nav"
+
   def new
     @user = User.new
   end
@@ -16,7 +18,6 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   end
-
 
   private
 
