@@ -1,7 +1,9 @@
-<h1>Your Family</h1>
-<p>Welcome! This is where your students will appear.</p>
-<h2>Students</h2>
+<%= render 'layouts/section_header',
+  title: "#{@user.username}'s Family Board",
+  button_label: "Add Student",
+  button_path: new_user_student_path(@user) %>
 
+<h2>Students</h2>
 <% @user.students.each do |student| %>
   <p>
     <strong><%= student.name %></strong><br>

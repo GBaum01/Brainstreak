@@ -1,5 +1,13 @@
 <%# Assuming to receive @student %>
 
-<h1> <%= student.name %> Streak</h1>
-<%= link_to "Generate practice", "#" %>
+<%= render 'layouts/section_header',
+  title: "#{@student.name}'s Streak",
+  button_label: "Generate practice",
+  button_path: "#" %>
+<ol>
+<% @student.practices.each do |practice|%>
+<li>
+  practice <%= practice.id %> - <%= practice.score%>/10
+</li>
+<%end%>
 <%= @student || student %>
