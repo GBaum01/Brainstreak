@@ -5,6 +5,7 @@ class StudentsController < ApplicationController
   # GET /students/:id
   def show
     @student = Student.find(params[:id])
+    @user = @student.user
   end
 
   def new
