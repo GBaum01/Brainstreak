@@ -4,5 +4,4 @@ class Student < ApplicationRecord
   has_many :practices
 
   validates :name, presence: true
-  validates :year_group, presence: true
 end
