@@ -2,11 +2,11 @@
            title: "Practice Recap — #{@practice.student.name}",
            back_path: student_path(@practice.student),
            back_label: "Back to #{@practice.student.name}",
-           primary_label: "Generate Lesson",
-           primary_path: student_practices_path(@practice.student),
-           primary_method: :post,
-           secondary_label: "Retake",
-           secondary_path: student_practices_path(@practice.student),
+primary_label: "Generate Lesson",
+primary_path: level_practices_path(@practice.level, student_id: @practice.student.id),
+primary_method: :post,
+secondary_label: "Retake",
+secondary_path: level_practices_path(@practice.level, student_id: @practice.student.id),
            secondary_method: :post %>
 
 <div class="mt-8 max-w-4xl">
