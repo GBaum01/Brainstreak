@@ -32,7 +32,13 @@ class PracticesController < ApplicationController
     @practice = Practice.find(params[:id])
     score = @practice.questions.where(status: true).count
     @practice.update(score: score)
-    redirect_to student_path(@practice.student), notice: "Practice completed with score #{score}/10"
+    redirect_to recap_practice_path(@practice), notice: "Practice completed with score #{score}/10"
+  end
+
+  # GET /practices/:id/recap
+  def recap
+    @practice = Practice.find(params[:id])
+    @questions = @practice.questions.order(:id)
   end
 
   private
