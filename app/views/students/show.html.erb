@@ -1,8 +1,5 @@
-  <%= render 'layouts/section_header',
-    title: "#{@student.name}'s Home Page",
-    button_label: nil,
-    button_path: nil,
-    button_method: nil %>
+  <%= render 'layouts/page_header',
+    title: "#{@student.name}'s Home Page" %>
 
 <h2 class="mt-8 text-2xl font-bold tracking-tight text-slate-900"><%= @student.year_group.name %> - Curriculum</h2>
 <%# ---- TOPIC TABS ---- %>
@@ -159,11 +156,8 @@
 <%# ---- PRACTICE HISTORY ---- %>
 <div class="mt-8">
 
-  <%= render 'layouts/section_header',
-    title: "#{@student.name}'s Streak",
-    button_label: nil,
-    button_path: nil,
-    button_method: nil %>
+  <%= render 'layouts/page_header',
+    title: "#{@student.name}'s Streak" %>
 
   <ol class="mt-2 space-y-1">
     <% @student.practices.order(:created_at).each_with_index do |practice, index| %>

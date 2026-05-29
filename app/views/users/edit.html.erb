@@ -1,7 +1,5 @@
-<%= render 'layouts/section_header',
-           title: "Edit Profile",
-           button_label: nil,
-           button_path: nil %>
+<%= render 'layouts/page_header',
+           title: "Edit Profile" %>
 
 <div class="max-w-2xl mt-10">
   <%= simple_form_for @user, url: user_path(@user), method: :patch do |f| %>

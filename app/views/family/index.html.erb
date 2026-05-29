@@ -1,7 +1,7 @@
-<%= render 'layouts/section_header',
+<%= render 'layouts/page_header',
            title: "#{@user.username}'s Family Board",
-           button_label: "Add Student",
-           button_path: new_user_student_path(@user) %>
+           primary_label: "Add Student",
+           primary_path: new_user_student_path(@user) %>
 
 <div class="mt-10">
   <% if @user.students.any? %>

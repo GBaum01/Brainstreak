@@ -1,29 +1,66 @@
-<h1>Practice recap — <%= @practice.student.name %></h1>
-<p>Score: <%= @practice.score %>/10</p>
-<hr />
-<ol>
-  <% @questions.each_with_index do |q, i| %>
-    <li class="mb-4">
-      <p class="font-semibold">Q<%= i+1 %>: <%= q.question %></p>
-      <p>Your answer: <span class="font-medium"><%= q.submitted_answer || "(no answer)" %></span> —
-        <% if q.status %>
-          <span class="font-semibold text-green-600">Correct</span>
-        <% else %>
-          <span class="font-semibold text-red-600">Incorrect</span>
-        <% end %>
-      </p>
-      <details class="mt-2">
-        <summary class="cursor-pointer underline">Show explanation</summary>
-        <div class="mt-2 text-sm text-gray-700">
-          <p><strong>Correct answer:</strong> <%= q.correct_answer %></p>
-          <p><strong>Explanation:</strong> <%= q.explanation %></p>
-        </div>
-      </details>
-    </li>
-  <% end %>
-</ol>
+<%= render 'layouts/page_header',
+           title: "Practice Recap — #{@practice.student.name}",
+           back_path: student_path(@practice.student),
+           back_label: "Back to #{@practice.student.name}",
+           primary_label: "Generate Lesson",
+           primary_path: student_practices_path(@practice.student),
+           primary_method: :post,
+           secondary_label: "Retake",
+           secondary_path: student_practices_path(@practice.student),
+           secondary_method: :post %>
 
-<hr class="mt-6" />
-<div class="mt-4">
-  <%= link_to "Back to student", student_path(@practice.student), class: "inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" %>
+<div class="mt-8 max-w-4xl">
+  <!-- Dynamic Score Header Card -->
+  <div class="mb-8 rounded-3xl bg-indigo-50 border border-indigo-100 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between shadow-sm gap-4">
+    <div>
+      <span class="text-xs font-semibold text-indigo-900/60 uppercase tracking-wider block">Overall Score</span>
+      <h2 class="text-3xl font-extrabold text-indigo-700 mt-1"><%= @practice.score %>/10</h2>
+    </div>
+    <div class="sm:text-right">
+      <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Status</span>
+      <span class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-700/10 mt-1.5 select-none">
+        Completed
+      </span>
+    </div>
+  </div>
+
+  <!-- Questions List -->
+  <div class="space-y-6">
+    <% @questions.each_with_index do |q, i| %>
+      <div class="bg-white rounded-[2rem] border border-slate-200/60 p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:border-slate-300/40">
+        <!-- Question Badge & Title -->
+        <div class="flex items-center justify-between gap-4 mb-4 border-b border-slate-100 pb-4">
+          <h3 class="text-lg font-bold text-slate-900">Question <%= i+1 %></h3>
+          <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-inset select-none <%= q.status ? 'bg-emerald-50 text-emerald-700 ring-emerald-700/10' : 'bg-rose-50 text-rose-700 ring-rose-700/10' %>">
+            <%= q.status ? 'Correct' : 'Incorrect' %>
+          </span>
+        </div>
+
+        <!-- Question Text -->
+        <p class="text-base font-semibold text-slate-800 leading-relaxed mb-6">
+          <%= q.question %>
+        </p>
+
+        <!-- Answers Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100/80">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">Your Answer</span>
+            <span class="text-base font-bold text-slate-900"><%= q.submitted_answer.present? ? q.submitted_answer : "(no answer)" %></span>
+          </div>
+          <div class="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100/40">
+            <span class="text-xs font-semibold text-indigo-900/60 uppercase tracking-wider block mb-1">Correct Answer</span>
+            <span class="text-base font-bold text-indigo-700"><%= q.correct_answer %></span>
+          </div>
+        </div>
+
+        <!-- Explanation Display -->
+        <% unless q.status %>
+          <div class="mt-6 border-t border-slate-100 pt-4 text-left">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Explanation</span>
+            <p class="text-sm text-slate-600 leading-relaxed pl-0.5"><%= q.explanation %></p>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>

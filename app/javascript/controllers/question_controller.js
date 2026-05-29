@@ -5,6 +5,7 @@ export default class extends Controller {
 
   connect() {
     this.answered = false
+    this.toggleSubmitButton()
   }
 
   submit(event) {
@@ -99,5 +100,19 @@ export default class extends Controller {
   showExplanation() {
     const isHidden = this.explanationTarget.style.display === "none"
     this.explanationTarget.style.display = isHidden ? "block" : "none"
+  }
+
+  toggleSubmitButton() {
+    if (this.answered) return
+
+    const value = this.inputTarget.value.trim()
+    const hasValue = value.length > 0
+
+    if (this.hasSubmitTarget) {
+      this.submitTarget.disabled = !hasValue
+      this.submitTarget.classList.toggle("opacity-50", !hasValue)
+      this.submitTarget.classList.toggle("cursor-not-allowed", !hasValue)
+      this.submitTarget.classList.toggle("cursor-pointer", hasValue)
+    }
   }
 }
