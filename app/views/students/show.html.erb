@@ -167,12 +167,7 @@
 
   <ol class="mt-2 space-y-1">
     <% @student.practices.order(:created_at).each_with_index do |practice, index| %>
-     <li class="text-sm text-gray-700">
-      Practice <%= index + 1 %> — <%= practice.score %>/10 |
-      <%= link_to "View Recap", recap_practice_path(practice), class: "text-indigo-600 hover:underline" %>
-     </li>
-
-
+    <%= render "students/practice_row", practice: practice, index: index %>
     <% end %>
   </ol>
 </div>

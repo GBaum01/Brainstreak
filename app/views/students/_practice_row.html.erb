@@ -1,0 +1,7 @@
+<li class="text-sm text-gray-700">
+  Practice <%= index + 1 %> — <%= practice.score %>/10
+  |
+  <%= link_to "Recap", recap_practice_path(practice), class: "text-indigo-600 hover:underline" %>
+  |
+  <%= link_to "Lesson", practice_lesson_path(practice), class: "text-indigo-600 hover:underline" %>
+</li>
