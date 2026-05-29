@@ -7,11 +7,12 @@ class PracticesController < ApplicationController
     render json: { answered_count: answered_count }
   end
 
-  # POST /students/:student_id/practices
+  # POST /levels/:level_id/practices?student_id=1
   def create
     # 1. Create the practice
     @student = Student.find(params[:student_id])
-    @practice = Practice.new(student: @student)
+    @level = Level.find(params[:level_id])
+    @practice = Practice.new(student: @student, level: @level)
     # 2. Create the questions with ai
     generate_questions_for(@practice)
     if @practice.save
@@ -40,18 +41,16 @@ class PracticesController < ApplicationController
   def generate_questions_for(practice)
     chat = RubyLLM.chat
 
-    topic_name = "Addition and Subtraction"
-    level_name = "Add two-digit and three-digit numbers"
-    difficulty_level = 3
+    level_name = practice.level.name
+    topic_name = practice.level.topic.name
 
     ai_prompt = <<~PROMPT
       Generate 10 mathematics questions for Year #{@student.year_group.name}.
 
       Topic: #{topic_name}
       Sub-topic: #{level_name}
-      Difficulty: #{difficulty_level}/5
 
-      Questions should require a written answer, not multiple choice.
+      Questions should require a written numerical answer, not multiple choice.
 
       Return ONLY valid raw JSON.
       Do not include markdown code fences.
