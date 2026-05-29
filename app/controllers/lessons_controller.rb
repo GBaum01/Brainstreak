@@ -1,4 +1,5 @@
 class LessonsController < ApplicationController
+  before_action :set_practice
   def show
     @lesson = @practice.lesson
   end
@@ -11,6 +12,16 @@ class LessonsController < ApplicationController
       redirect_to practice_lesson_path(@practice)
     else
       redirect_to practice_path(@practice), alert: "Could not generate lesson"
+    end
+  end
+
+  def update
+    @lesson = @practice.lesson
+    @lesson.content = "Regenerated lesson coming soon..."
+    if @lesson.save
+      redirect_to practice_lesson_path(@practice)
+    else
+      redirect_to practice_lesson_path(@practice), alert: "Could not regenerate lesson"
     end
   end
 

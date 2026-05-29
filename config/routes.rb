@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     member do
       post :submit
     end
-    resource :lesson, only: [:show, :create]
+    resource :lesson, only: [:show, :create, :update]
   end
 
   get "family", to: "family#index"
