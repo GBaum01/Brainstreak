@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root "pages#home"
 
   resources :users, only: [:new, :create] do
-    resources :students, only: [ :new, :create, :destroy ]
+    resources :students, only: [ :new, :create, :destroy, :edit, :update ]
   end
 
 
@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :practices, only: [:show] do
     member do
       post :submit
+      get :recap
     end
   end
 
