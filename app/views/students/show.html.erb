@@ -1,5 +1,5 @@
   <%= render 'layouts/section_header',
-    title: "#{@student.name}'s Home Page",
+    title: "#{@student.name}'s Streak",
     button_label: nil,
     button_path: nil,
     button_method: nil %>
@@ -29,7 +29,7 @@
     <nav aria-label="Topics" class="flex space-x-4">
       <% @student.topics.each_with_index do |topic, index| %>
         <a href="#" data-action="click->tabs#select" data-tabs-target="trigger" data-tabs-index-param="<%= index %>"
-          class="rounded-md bg-indigo-100 px-3 py-2 text-sm font-medium text-indigo-700" aria-current="page">
+          class="rounded-md bg-indigo-100 px-3 py-2 text-medium font-bold text-indigo-700" aria-current="page">
           <%= topic.name %>
         </a>
       <% end %>
@@ -44,34 +44,24 @@
       <div data-tabs-target="panel" class="<%= initially_hidden_or_not %>">
         <ul class="divide-y divide-gray-200 rounded-md border border-gray-200">
           <% topic.levels.each do |level| %>
-            <li class="flex items-center justify-between px-4 py-3">
-              <span class="text-sm text-gray-700"><%= level.name %></span>
-              <%= button_to "Start Practice", level_practices_path(level, student_id: @student.id), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
+            <li class="flex items-center justify-between px-4 py-1">
+              <span class="text-medium font-bold text-gray-900"><%= level.name %></span>
+              <%= button_to "Start Practice", level_practices_path(level, student_id: @student.id), method: :post, class: "rounded-md bg-white px-3 py-1.5 text-sm font-medium text-indigo-700 border border-transparent hover:border-indigo-300 hover:bg-white transition-colors duration-200" %>
             </li>
+            <%# ---- PRACTICE HISTORY ---- %>
+            <div class="pl-6 mt-2">
+              <ol class="mt-2 space-y-1">
+                <% @student.practices.order(:created_at).each_with_index do |practice, index| %>
+                <li class="text-sm text-gray-700">
+                  Practice <%= index + 1 %> — <%= practice.score %>/10 |
+                  <%= link_to "View Recap", recap_practice_path(practice), class: "text-indigo-600 hover:underline" %>
+                </li>
+                <% end %>
+              </ol>
+            </div>
           <% end %>
         </ul>
       </div>
     <% end %>
   </div>
-</div>
-
-<%# ---- PRACTICE HISTORY ---- %>
-<div class="mt-8">
-
-  <%= render 'layouts/section_header',
-    title: "#{@student.name}'s Streak",
-    button_label: nil,
-    button_path: nil,
-    button_method: nil %>
-
-  <ol class="mt-2 space-y-1">
-    <% @student.practices.order(:created_at).each_with_index do |practice, index| %>
-     <li class="text-sm text-gray-700">
-      Practice <%= index + 1 %> — <%= practice.score %>/10 |
-      <%= link_to "View Recap", recap_practice_path(practice), class: "text-indigo-600 hover:underline" %>
-     </li>
-
-
-    <% end %>
-  </ol>
 </div>
