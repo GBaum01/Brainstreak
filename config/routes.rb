@@ -5,7 +5,9 @@ Rails.application.routes.draw do
     resources :students, only: [ :new, :create, :destroy, :edit, :update ]
   end
 
-  resources :students, only: [:show] do
+
+  resources :students, only: [:show]
+  resources :levels, only: [] do
     resources :practices, only: [:create]
   end
 

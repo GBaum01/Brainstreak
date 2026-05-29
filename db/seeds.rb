@@ -68,6 +68,13 @@ Level.where(name: "Multiply one-digit numbers by two-digit numbers", topic_id: t
 Level.where(name: "Divide numbers using equal groups",               topic_id: t3.id).first_or_create!
 Level.where(name: "Solve multiplication and division word problems", topic_id: t3.id).first_or_create!
 
+# Topic 4 — Year 3: Fractions
+Level.where(name: "Recognise and name unit fractions",                    topic_id: t4.id).first_or_create!
+Level.where(name: "Recognise fractions of shapes and collections",        topic_id: t4.id).first_or_create!
+Level.where(name: "Find fractions of amounts",                            topic_id: t4.id).first_or_create!
+Level.where(name: "Add and subtract fractions with the same denominator", topic_id: t4.id).first_or_create!
+Level.where(name: "Solve fraction word problems",                         topic_id: t4.id).first_or_create!
+
 puts "✅ Levels ready"
 
 # ---------------------------------------------------
