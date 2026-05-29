@@ -1,7 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["panel"]
+  static targets = ["panel", "trigger"]
+
+  connect() {
+    console.log("Selecting first panel")
+    this.#showPanel(0)
+    this.#updateTabs(this.triggerTargets[0], 0)
+  }
 
   select(event) {
     event.preventDefault()

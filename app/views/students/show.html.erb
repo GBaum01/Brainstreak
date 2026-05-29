@@ -1,5 +1,8 @@
-  <%= render 'layouts/page_header',
-    title: "#{@student.name}'s Home Page" %>
+  <%= render 'layouts/section_header',
+    title: "#{@student.name}'s Streak",
+    button_label: nil,
+    button_path: nil,
+    button_method: nil %>
 
 <h2 class="mt-8 text-2xl font-bold tracking-tight text-slate-900"><%= @student.year_group.name %> - Curriculum</h2>
 <%# ---- TOPIC TABS ---- %>
@@ -12,7 +15,7 @@
       class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
       data-action="change->tabs#selectFromDropdown">
       <option value="0">Number and Place Value</option>
-      <option value="1">Addition and Subtraction</option>
+      <option value="1">Operations</option>
       <option value="2">Multiplication and Division</option>
       <option value="3">Fractions</option>
     </select>
@@ -24,132 +27,42 @@
   <%# Desktop pill tabs %>
   <div class="hidden sm:block">
     <nav aria-label="Topics" class="flex space-x-4">
-      <a href="#" data-action="click->tabs#select" data-tabs-index-param="0"
-         class="rounded-md bg-indigo-100 px-3 py-2 text-sm font-medium text-indigo-700" aria-current="page">
-        Number and Place Value
-      </a>
-      <a href="#" data-action="click->tabs#select" data-tabs-index-param="1"
-         class="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-        Addition and Subtraction
-      </a>
-      <a href="#" data-action="click->tabs#select" data-tabs-index-param="2"
-         class="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-        Multiplication and Division
-      </a>
-      <a href="#" data-action="click->tabs#select" data-tabs-index-param="3"
-         class="rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-        Fractions
-      </a>
+      <% @student.topics.each_with_index do |topic, index| %>
+        <a href="#" data-action="click->tabs#select" data-tabs-target="trigger" data-tabs-index-param="<%= index %>"
+          class="rounded-md bg-indigo-100 px-3 py-2 text-medium font-bold text-indigo-700" aria-current="page">
+          <%= topic.name %>
+        </a>
+      <% end %>
     </nav>
   </div>
 
   <%# Tab panels %>
   <div class="mt-4">
-
-    <%# Panel 0 — Number and Place Value %>
-    <div data-tabs-target="panel">
-      <ul class="divide-y divide-gray-200 rounded-md border border-gray-200">
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Read and write numbers up to 10,000</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Compare and order four-digit numbers</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Partition numbers using place value</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Count in 10s, 100s and 1000s</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Round numbers to the nearest 10 and 100</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-      </ul>
-    </div>
-
-    <%# Panel 1 — Addition and Subtraction %>
-    <div data-tabs-target="panel" class="hidden">
-      <ul class="divide-y divide-gray-200 rounded-md border border-gray-200">
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Add two-digit and three-digit numbers</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Subtract two-digit and three-digit numbers</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Solve addition word problems</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Solve subtraction word problems</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Use inverse operations to check answers</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-      </ul>
-    </div>
-
-    <%# Panel 2 — Multiplication and Division %>
-    <div data-tabs-target="panel" class="hidden">
-      <ul class="divide-y divide-gray-200 rounded-md border border-gray-200">
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Recall 2, 5 and 10 times tables</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Recall 3 and 4 times tables</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Multiply one-digit numbers by two-digit numbers</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Divide numbers using equal groups</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Solve multiplication and division word problems</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-      </ul>
-    </div>
-
-    <%# Panel 3 — Fractions %>
-    <div data-tabs-target="panel" class="hidden">
-      <ul class="divide-y divide-gray-200 rounded-md border border-gray-200">
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Recognise and find fractions of shapes</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Compare and order fractions</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Add and subtract fractions with the same denominator</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Find fractions of amounts</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-        <li class="flex items-center justify-between px-4 py-3">
-          <span class="text-sm text-gray-700">Solve fraction word problems</span>
-          <%= button_to "Start Practice", student_practices_path(@student), method: :post, class: "rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500" %>
-        </li>
-      </ul>
-    </div>
-
+    <% @student.topics.each_with_index do |topic, index| %>
+      <% initially_hidden_or_not = index.zero? ? "" : "hidden" %>
+      <%# Panel 0 — Number and Place Value %>
+      <div data-tabs-target="panel" class="<%= initially_hidden_or_not %>">
+        <ul class="divide-y divide-gray-200 rounded-md border border-gray-200">
+          <% topic.levels.each do |level| %>
+            <li class="flex items-center justify-between px-4 py-1">
+              <span class="text-medium font-bold text-gray-900"><%= level.name %></span>
+              <%= button_to "Start Practice", level_practices_path(level, student_id: @student.id), method: :post, class: "rounded-md bg-white px-3 py-1.5 text-sm font-medium text-indigo-700 border border-transparent hover:border-indigo-300 hover:bg-white transition-colors duration-200" %>
+            </li>
+            <%# ---- PRACTICE HISTORY ---- %>
+            <div class="pl-6 mt-2">
+              <ol class="mt-2 space-y-1">
+                <% @student.practices.order(:created_at).each_with_index do |practice, index| %>
+                <li class="text-sm text-gray-700">
+                  Practice <%= index + 1 %> — <%= practice.score %>/10 |
+                  <%= link_to "View Recap", recap_practice_path(practice), class: "text-indigo-600 hover:underline" %>
+                </li>
+                <% end %>
+              </ol>
+            </div>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   </div>
 </div>
 

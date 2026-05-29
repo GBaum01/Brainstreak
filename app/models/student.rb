@@ -4,4 +4,8 @@ class Student < ApplicationRecord
   has_many :practices
 
   validates :name, presence: true
+
+  def topics
+    Topic.where(year_group: year_group)
+  end
 end
