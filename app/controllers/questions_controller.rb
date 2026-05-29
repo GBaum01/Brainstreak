@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   # GET /questions/:id
+  layout "application_no_nav"
   def show
     @question = Question.find(params[:id])
     @practice = @question.practice
