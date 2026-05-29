@@ -14,8 +14,7 @@
       <p class="text-base text-slate-400 mb-8 font-normal">Welcome Back You've Been Missed!</p>
 
       <%= simple_form_for :login, url: session_path, method: :post do |f| %>
-        <!-- Email/Username Input using simple_form -->
-        <%= f.input :login, required: true, placeholder: "Email or Username", label: "Email Address", input_html: { name: :login, autocomplete: "username" } %>
+        <%= f.input :login, required: true, placeholder: "Email or Username", label: "Username or Email", input_html: { name: :login, autocomplete: "username" } %>
 
         <!-- Password Input with Absolute Toggle Button Overlay -->
         <div class="text-left mb-5">
