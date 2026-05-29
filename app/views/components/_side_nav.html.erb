@@ -102,12 +102,19 @@
       </li>
 
       <%# ====== Family ====== %>
-      <li class="-mx-6 mt-auto">
-        <a href="#" class="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white hover:bg-white/5">
-          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10" />
-          <span class="sr-only">Your profile</span>
-          <span aria-hidden="true"><%= user&.username || "Guest" %></span>
-        </a>
+      <li class="-mx-6 mt-auto border-t border-white/5 pt-3">
+        <div class="px-6 pb-4">
+          <div class="flex items-center gap-x-4 py-2">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10" />
+            <span class="text-sm font-semibold text-white leading-6"><%= user&.username || "Guest" %></span>
+          </div>
+          <div class="mt-1">
+            <%= link_to session_path, method: :delete, data: { turbo_method: :delete }, class: "flex items-center gap-x-2.5 rounded-md py-2 px-2 text-xs font-semibold text-gray-400 hover:text-rose-400 hover:bg-white/5 transition-all duration-200" do %>
+              <i class="fa-solid fa-right-from-bracket text-sm"></i>
+              <span>Log out</span>
+            <% end %>
+          </div>
+        </div>
       </li>
     </ul>
   </nav>

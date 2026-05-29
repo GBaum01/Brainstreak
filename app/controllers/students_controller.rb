@@ -1,6 +1,6 @@
 class StudentsController < ApplicationController
-  before_action :set_user, only: %i[new create destroy]
-  before_action :set_year_groups, only: %i[new create]
+  before_action :set_user, only: %i[new create destroy edit update]
+  before_action :set_year_groups, only: %i[new create edit update]
 
   # GET /students/:id
   def show
@@ -19,6 +19,19 @@ class StudentsController < ApplicationController
       redirect_to family_path
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @student = @user.students.find(params[:id])
+  end
+
+  def update
+    @student = @user.students.find(params[:id])
+    if @student.update(student_params)
+      redirect_to family_path, notice: "Student was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
