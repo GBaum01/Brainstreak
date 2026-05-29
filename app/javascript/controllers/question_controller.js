@@ -1,7 +1,19 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["form", "input", "submit", "answer", "explanation", "explainButton", "result", "submitPracticeBtn", "submittedAnswer", "submittedAnswerText"]
+  static targets = [
+    "form",
+    "input",
+    "explainButton",
+    "explanation",
+    "result",
+    "submitPracticeBtn",
+    "submittedAnswer",
+    "submittedAnswerText",
+    "actionBtn",
+    "nextQuestionBtn",
+    "answer"
+  ]
 
   connect() {
     this.answered = false
@@ -12,8 +24,9 @@ export default class extends Controller {
     if (this.answered) return
 
     const user = this.inputTarget.value.trim()
-    this.answered = true
+    if (!user) return
 
+    this.answered = true
     const questionId = this.data.get("question-id")
 
     // POST answer to server for validation
@@ -31,8 +44,8 @@ export default class extends Controller {
 
       this.resultTarget.textContent = isCorrect ? "Correct!" : "Incorrect"
       this.resultTarget.style.display = "block"
-      this.resultTarget.classList.toggle("text-green-600", isCorrect)
-      this.resultTarget.classList.toggle("text-red-600", !isCorrect)
+      this.resultTarget.classList.toggle("text-emerald-600", isCorrect)
+      this.resultTarget.classList.toggle("text-rose-600", !isCorrect)
 
       this.submittedAnswerTextTarget.textContent = user
       this.submittedAnswerTarget.style.display = "block"
@@ -41,35 +54,34 @@ export default class extends Controller {
       this.answerTarget.style.display = "block"
       this.explainButtonTarget.style.display = "inline-flex"
 
-      // Check if all questions are answered
-      this.checkAllAnswered()
+      // Dynamically update the main action button text and style
+      if (this.hasNextQuestionBtnTarget) {
+        this.actionBtnTarget.textContent = "Next Question"
+        this.actionBtnTarget.type = "button"
+      } else {
+        this.actionBtnTarget.textContent = "Submit Practice"
+        this.actionBtnTarget.type = "button"
+        this.actionBtnTarget.classList.remove("bg-indigo-600", "hover:bg-indigo-500", "focus-visible:outline-indigo-600")
+        this.actionBtnTarget.classList.add("bg-emerald-600", "hover:bg-emerald-500", "focus-visible:outline-emerald-600")
+      }
     })
+    .catch(error => console.error("Error submitting answer:", error))
+  }
+
+  handleAction(event) {
+    if (!this.answered) return
+
+    event.preventDefault()
+
+    if (this.hasNextQuestionBtnTarget) {
+      this.nextQuestionBtnTarget.click()
+    } else {
+      this.submitPracticeBtnTarget.click()
+    }
   }
 
   showExplanation() {
     const isHidden = this.explanationTarget.style.display === "none"
     this.explanationTarget.style.display = isHidden ? "block" : "none"
-  }
-
-  checkAllAnswered() {
-    const practiceId = this.data.get("practice-id")
-    const totalQuestions = parseInt(this.data.get("total-questions"), 10)
-
-    fetch(`/practices/${practiceId}`, {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log("Progress check:", { answered_count: data.answered_count, total: totalQuestions })
-      if (data.answered_count === totalQuestions) {
-        console.log("All questions answered. Showing submit button.")
-        this.submitPracticeBtnTarget.style.display = "inline-flex"
-      }
-    })
-    .catch(error => console.error("Error checking progress:", error))
   }
 }

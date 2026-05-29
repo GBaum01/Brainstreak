@@ -29,22 +29,45 @@
       <!-- Sidebar -->
       <%= render 'components/side_nav' %>
       <main class="container mx-auto px-5 flex-1 overflow-y-auto h--page">
+        <script>
+          function closeFlash(id) {
+            const el = document.getElementById(id);
+            if (el) {
+              el.classList.remove('opacity-100', 'translate-y-0');
+              el.classList.add('opacity-0', 'translate-y-4');
+              setTimeout(() => { el.remove(); }, 500);
+            }
+          }
+        </script>
+
         <% if notice.present? %>
-          <div class="fixed top-6 right-6 z-50 flex items-center p-4 mb-4 text-sm text-emerald-800 rounded-2xl bg-emerald-50 border border-emerald-100 shadow-xl dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-500/20 max-w-md transition-all duration-300 transform hover:scale-[1.02]" role="alert">
-            <svg class="flex-shrink-0 inline w-5 h-5 mr-3 text-emerald-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <div id="flash-notice" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-x-3 p-4 text-sm text-emerald-800 rounded-2xl bg-emerald-50 border border-emerald-100 shadow-xl max-w-md transition-all duration-500 ease-in-out opacity-100 translate-y-0" role="alert">
+            <svg class="flex-shrink-0 inline w-5 h-5 text-emerald-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
               <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
             </svg>
-            <span class="font-medium"><%= notice %></span>
+            <span class="font-semibold whitespace-nowrap"><%= notice %></span>
+            <button type="button" onclick="closeFlash('flash-notice')" class="ml-2 bg-transparent hover:bg-emerald-100/50 text-emerald-600 hover:text-emerald-800 rounded-lg p-1 inline-flex items-center justify-center cursor-pointer transition-colors duration-200" aria-label="Close">
+              <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
           </div>
+          <script>
+            setTimeout(() => { closeFlash('flash-notice') }, 5000);
+          </script>
         <% end %>
 
         <% if alert.present? %>
-          <div class="fixed top-6 right-6 z-50 flex items-center p-4 mb-4 text-sm text-rose-800 rounded-2xl bg-rose-50 border border-rose-100 shadow-xl dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-500/20 max-w-md transition-all duration-300 transform hover:scale-[1.02]" role="alert">
-            <svg class="flex-shrink-0 inline w-5 h-5 mr-3 text-rose-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <div id="flash-alert" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-x-3 p-4 text-sm text-rose-800 rounded-2xl bg-rose-50 border border-rose-100 shadow-xl max-w-md transition-all duration-500 ease-in-out opacity-100 translate-y-0" role="alert">
+            <svg class="flex-shrink-0 inline w-5 h-5 text-rose-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
               <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
             </svg>
-            <span class="font-medium"><%= alert %></span>
+            <span class="font-semibold whitespace-nowrap"><%= alert %></span>
+            <button type="button" onclick="closeFlash('flash-alert')" class="ml-2 bg-transparent hover:bg-rose-100/50 text-rose-600 hover:text-rose-800 rounded-lg p-1 inline-flex items-center justify-center cursor-pointer transition-colors duration-200" aria-label="Close">
+              <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
           </div>
+          <script>
+            setTimeout(() => { closeFlash('flash-alert') }, 5000);
+          </script>
         <% end %>
         <%= yield %>
       </main>

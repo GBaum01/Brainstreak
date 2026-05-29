@@ -27,8 +27,9 @@
           </div>
 
           <!-- Bottom Card Actions -->
-          <div class="mt-6 flex items-center justify-end gap-x-3 border-t border-slate-100 pt-4">
+          <div class="mt-6 flex items-center justify-end gap-x-2 border-t border-slate-100 pt-4">
             <%= link_to "View Student", student_path(student), class: "rounded-lg bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition-colors duration-200" %>
+            <%= link_to "Edit", edit_user_student_path(@user, student), class: "rounded-lg bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition-colors duration-200" %>
             <%= link_to "Remove", user_student_path(@user, student), method: :delete, data: { confirm: "Are you sure you want to remove #{student.name}?", turbo_method: :delete }, class: "rounded-lg bg-rose-50 px-3.5 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-100 transition-colors duration-200" %>
           </div>
         </div>
@@ -49,9 +50,4 @@
   <% end %>
 </div>
 
-<!-- Logout & Secondary Links footer -->
-<div class="mt-12 border-t border-slate-200 pt-6 flex items-center justify-between">
-  <%= link_to session_path, method: :delete, data: { turbo_method: :delete }, class: "text-sm text-slate-500 hover:text-rose-600 font-medium transition-colors duration-200 flex items-center gap-1.5" do %>
-    <i class="fa-solid fa-right-from-bracket"></i> Log out
-  <% end %>
-</div>
+
