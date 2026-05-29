@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_29_093000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_29_015851) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -18,6 +18,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_29_093000) do
     t.datetime "created_at", null: false
     t.string "name"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "lessons", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.bigint "practice_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["practice_id"], name: "index_lessons_on_practice_id"
   end
 
   create_table "levels", force: :cascade do |t|
@@ -46,7 +54,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_29_093000) do
     t.bigint "practice_id", null: false
     t.text "question"
     t.boolean "status"
-    t.text "submitted_answer"
     t.datetime "updated_at", null: false
     t.index ["practice_id"], name: "index_questions_on_practice_id"
   end
@@ -83,6 +90,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_29_093000) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "lessons", "practices"
   add_foreign_key "levels", "topics"
   add_foreign_key "practices", "levels"
   add_foreign_key "practices", "students"
