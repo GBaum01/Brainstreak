@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root "pages#home"
 
-  resources :users, only: [:new, :create] do
+  resources :users, only: [:new, :create, :edit, :update] do
     resources :students, only: [ :new, :create, :destroy, :edit, :update ]
   end
 
@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       post :submit
       get :recap
     end
+    resource :lesson, only: [:show, :create, :update]
   end
 
   get "family", to: "family#index"

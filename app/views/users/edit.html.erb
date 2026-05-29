@@ -1,0 +1,73 @@
+<%= render 'layouts/section_header',
+           title: "Edit Profile",
+           button_label: nil,
+           button_path: nil %>
+
+<div class="max-w-2xl mt-10">
+  <%= simple_form_for @user, url: user_path(@user), method: :patch do |f| %>
+    <% if @user.errors.any? %>
+      <div class="mb-6 rounded-lg bg-red-50 p-4 border border-red-100 shadow-sm" role="alert">
+        <div class="font-semibold mb-2 text-sm text-red-800"><%= pluralize(@user.errors.count, "error") %> prevented this profile from being saved:</div>
+        <ul class="list-disc pl-5 space-y-1 text-sm text-red-700">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="space-y-6">
+      <!-- Email Address using simple_form -->
+      <%= f.input :email, required: true, placeholder: "parent@example.com", label: "Email Address" %>
+
+      <!-- Username using simple_form -->
+      <%= f.input :username, required: true, placeholder: "Username", label: "Username" %>
+
+      <!-- Password Input with Absolute Toggle Button Overlay -->
+      <div class="text-left mb-6">
+        <%= f.label :password, "New Password", class: "block text-sm font-medium leading-6 text-slate-900 mb-2 pl-0.5" %>
+        <div class="relative flex items-center">
+          <%= f.input_field :password, id: "edit-password-field", class: "block w-full rounded-lg border-0 py-2.5 px-3.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 transition-all duration-200 bg-white", placeholder: "Leave blank to keep current password", autocomplete: "new-password" %>
+          <button type="button" class="absolute right-4 bg-transparent border-none text-slate-400 hover:text-slate-600 cursor-pointer text-base flex items-center transition-colors duration-200" onclick="togglePasswordVisibility('edit-password-field', 'edit-password-icon')" aria-label="Toggle password visibility">
+            <i class="fa-solid fa-eye-slash" id="edit-password-icon"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Password Confirmation Input with Absolute Toggle Button Overlay -->
+      <div class="text-left mb-8">
+        <%= f.label :password_confirmation, "Confirm New Password", class: "block text-sm font-medium leading-6 text-slate-900 mb-2 pl-0.5" %>
+        <div class="relative flex items-center">
+          <%= f.input_field :password_confirmation, id: "edit-password-confirm-field", class: "block w-full rounded-lg border-0 py-2.5 px-3.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 transition-all duration-200 bg-white", placeholder: "Confirm New Password", autocomplete: "new-password" %>
+          <button type="button" class="absolute right-4 bg-transparent border-none text-slate-400 hover:text-slate-600 cursor-pointer text-base flex items-center transition-colors duration-200" onclick="togglePasswordVisibility('edit-password-confirm-field', 'edit-password-confirm-icon')" aria-label="Toggle password confirmation visibility">
+            <i class="fa-solid fa-eye-slash" id="edit-password-confirm-icon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Bar: Stacked form bottom buttons aligned to the left with border-t -->
+    <div class="mt-8 flex items-center justify-start gap-x-4 border-t border-slate-200 pt-6">
+      <%= f.button :submit, "Save Changes", class: "rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer transition-all duration-200 text-center" %>
+      <%= link_to "Cancel", family_path, class: "rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-all duration-200 text-center" %>
+    </div>
+  <% end %>
+</div>
+
+<!-- Password Visibility Toggle Script -->
+<script>
+  function togglePasswordVisibility(fieldId, iconId) {
+    const passwordField = document.getElementById(fieldId);
+    const toggleIcon = document.getElementById(iconId);
+    
+    if (passwordField.type === 'password') {
+      passwordField.type = 'text';
+      toggleIcon.classList.remove('fa-eye-slash');
+      toggleIcon.classList.add('fa-eye');
+    } else {
+      passwordField.type = 'password';
+      toggleIcon.classList.remove('fa-eye');
+      toggleIcon.classList.add('fa-eye-slash');
+    }
+  }
+</script>
