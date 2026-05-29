@@ -15,13 +15,17 @@ Rails.application.routes.draw do
       post :answer
     end
   end
+  
   resources :practices, only: [:show] do
     member do
       post :submit
       get :recap
+      post :retake
     end
+
     resource :lesson, only: [:show, :create, :update]
   end
+
 
   get "family", to: "family#index"
   get "up" => "rails/health#show", as: :rails_health_check

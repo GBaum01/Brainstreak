@@ -3,7 +3,5 @@
   |
   <%= link_to "Recap", recap_practice_path(practice), class: "text-indigo-600 hover:underline" %>
   |
-  <%= link_to "Lesson", lesson_path(practice.lesson), class: "text-indigo-600 hover:underline" %>
-  |
-  <%= button_to "Retake", student_practices_path(practice.student), method: :post, class: "text-indigo-600 hover:underline" %>
+  <%= link_to "Lesson", practice_lesson_path(practice), class: "text-indigo-600 hover:underline" %>
 </li>
