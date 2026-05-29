@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   # GET /questions/:id
+  layout "application_no_nav"
   def show
     @question = Question.find(params[:id])
     @practice = @question.practice
@@ -19,13 +20,32 @@ class QuestionsController < ApplicationController
     user_answer = params[:answer].to_s.strip
     correct_answer = @question.correct_answer.to_s.strip
 
-    is_correct = user_answer.downcase == correct_answer.downcase
+    user_number = parse_numeric_answer(user_answer)
+    correct_number = parse_numeric_answer(correct_answer)
 
-    @question.update(status: is_correct)
+    is_correct = if user_number && correct_number
+                   user_number == correct_number
+                 else
+                   user_answer.downcase == correct_answer.downcase
+                 end
+
+    @question.update(status: is_correct, submitted_answer: user_answer)
 
     render json: {
       correct: is_correct,
       answer: correct_answer
     }
+  end
+
+  private
+
+  def parse_numeric_answer(value)
+    text = value.to_s.strip
+    return nil if text.blank?
+
+    numeric_pattern = /\A[-+]?(?:\d+\.?\d*|\.\d+)\z/
+    return text.to_f if numeric_pattern.match?(text)
+
+    nil
   end
 end

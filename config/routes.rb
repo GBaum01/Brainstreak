@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :practices, only: [:show] do
     member do
       post :submit
+      get :recap
     end
   end
 

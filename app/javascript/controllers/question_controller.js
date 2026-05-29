@@ -1,19 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [
-    "form",
-    "input",
-    "explainButton",
-    "explanation",
-    "result",
-    "submitPracticeBtn",
-    "submittedAnswer",
-    "submittedAnswerText",
-    "actionBtn",
-    "nextQuestionBtn",
-    "answer"
-  ]
+  static targets = ["form", "input", "submit", "answer", "explanation", "explainButton", "result", "submitPracticeBtn", "submittedAnswer", "submittedAnswerText", "error"]
 
   connect() {
     this.answered = false
@@ -24,7 +12,15 @@ export default class extends Controller {
     if (this.answered) return
 
     const user = this.inputTarget.value.trim()
-    if (!user) return
+    const numberPattern = /^[-+]?(?:\d+\.?\d*|\.\d+)$/
+
+    if (!numberPattern.test(user)) {
+      this.errorTarget.style.display = "block"
+      return
+    }
+
+    this.errorTarget.style.display = "none"
+    this.answered = true
 
     this.answered = true
     const questionId = this.data.get("question-id")
@@ -42,6 +38,34 @@ export default class extends Controller {
     .then(data => {
       const isCorrect = data.correct
 
+      const nextQuestionUrl = this.data.get("next-question-url")
+      const practiceId = this.data.get("practice-id")
+      if (nextQuestionUrl && nextQuestionUrl !== "") {
+        // advance immediately without showing the submitted answer UI
+        window.location = nextQuestionUrl
+        return
+      }
+
+      // If there's no next question, this is the final question.
+      // Submit the whole practice and go straight to the recap page.
+      if ((!nextQuestionUrl || nextQuestionUrl === "") && practiceId) {
+        fetch(`/practices/${practiceId}/submit`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
+          }
+        })
+        .then(() => {
+          window.location = `/practices/${practiceId}/recap`
+        })
+        .catch(err => {
+          console.error('Error submitting practice:', err)
+          // fallback: show submitted-answer UI
+        })
+        return
+      }
+
       this.resultTarget.textContent = isCorrect ? "Correct!" : "Incorrect"
       this.resultTarget.style.display = "block"
       this.resultTarget.classList.toggle("text-emerald-600", isCorrect)
@@ -54,16 +78,8 @@ export default class extends Controller {
       this.answerTarget.style.display = "block"
       this.explainButtonTarget.style.display = "inline-flex"
 
-      // Dynamically update the main action button text and style
-      if (this.hasNextQuestionBtnTarget) {
-        this.actionBtnTarget.textContent = "Next Question"
-        this.actionBtnTarget.type = "button"
-      } else {
-        this.actionBtnTarget.textContent = "Submit Practice"
-        this.actionBtnTarget.type = "button"
-        this.actionBtnTarget.classList.remove("bg-indigo-600", "hover:bg-indigo-500", "focus-visible:outline-indigo-600")
-        this.actionBtnTarget.classList.add("bg-emerald-600", "hover:bg-emerald-500", "focus-visible:outline-emerald-600")
-      }
+      // Check if all questions are answered (only relevant on final question)
+      this.checkAllAnswered()
     })
     .catch(error => console.error("Error submitting answer:", error))
   }
