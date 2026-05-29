@@ -15,9 +15,9 @@ class PracticesController < ApplicationController
     @practice = Practice.new(student: @student, level: @level)
     # 2. Create the questions with ai
     generate_questions_for(@practice)
+
     if @practice.save
       @practice.reload
-
       if @practice.questions.any?
         redirect_to question_path(@practice.questions.first)
       else
@@ -26,6 +26,23 @@ class PracticesController < ApplicationController
     else
       redirect_to student_path(@student), alert: "Something went wrong..."
     end
+  end
+
+  def retake
+    @practice = Practice.find(params[:id])
+
+    # Reset score
+    @practice.update(score: nil)
+
+    # Reset questions
+    @practice.questions.update_all(
+      status: nil,
+      student_answer: nil # only if you track this
+    )
+
+    # Redirect to first question
+    first_question = @practice.questions.order(:id).first
+    redirect_to question_path(first_question)
   end
 
   # POST /practices/:id/submit
@@ -44,7 +61,7 @@ class PracticesController < ApplicationController
 
   private
 
-  def generate_questions_for(practice)
+  def generate_questions_for(practice) # rubocop:disable Metrics/MethodLength
     chat = RubyLLM.chat
 
     level_name = practice.level.name
